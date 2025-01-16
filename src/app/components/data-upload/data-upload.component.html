@@ -1,0 +1,8 @@
+<!-- data-upload.component.html -->
+<div class="data-upload-container">
+    <h2>Upload Data</h2>
+    <input type="file" (change)="onFileChange($event)" />
+    <button (click)="uploadData()">Upload Data</button>
+    <p *ngIf="isUploading">Uploading...</p>
+  </div>
+  

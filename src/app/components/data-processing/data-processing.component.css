@@ -1,0 +1,93 @@
+.data-processing-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    background: linear-gradient(to right, #4facfe, #0022fe);
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    max-width: 500px;
+    margin: 2rem auto;
+    animation: fadeInUp 0.5s ease-in-out;
+  }
+  
+  .data-processing-container h2 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #ffffff;
+    margin-bottom: 1.5rem;
+  }
+  
+  button {
+    width: 100%;
+    max-width: 400px;
+    padding: 1rem;
+    background-color: grey; /* Maroonish color */
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: blue; /* Lighter maroon on hover */
+  }
+  
+  p {
+    font-size: 1rem;
+    color: #ffffff;
+    font-weight: bold;
+    margin-top: 1rem;
+    text-align: center;
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .data-processing-container {
+      padding: 1rem;
+      margin: 1.5rem auto;
+    }
+  
+    button {
+      max-width: 100%;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .data-processing-container {
+      padding: 1rem;
+      margin: 1rem auto;
+    }
+  
+    .data-processing-container h2 {
+      font-size: 1.3rem;
+      margin-bottom: 0.8rem;
+    }
+  
+    button {
+      max-width: 100%;
+      padding: 0.7rem;
+    }
+  
+    button {
+      font-size: 0.9rem;
+    }
+  
+    p {
+      font-size: 0.8rem;
+    }
+  }
+  

@@ -1,0 +1,181 @@
+/* Container for the entire data generation section */
+.data-generation-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Align the content to the top */
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+    background: linear-gradient(to right, #4facfe, #0022fe); /* Gradient background */
+    padding: 2rem;
+    font-family: 'Roboto', sans-serif;
+    animation: fadeInUp 0.5s ease-in-out;
+  }
+  
+  /* Title styling */
+  .data-generation-container h2 {
+    margin-bottom: 1rem;
+    color: #ffffff;
+    font-size: 2.5rem; /* Adjust for better readability */
+    font-weight: bold;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    animation: fadeInDown 0.6s ease-in-out;
+  }
+  
+  /* Label styling */
+  .data-generation-container label {
+    color: #ffffff;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    display: block;
+    animation: fadeInUp 0.8s ease-in-out;
+  }
+  
+  /* Input field styling */
+  .data-generation-container input {
+    width: 100%;
+    max-width: 400px; /* Larger input for desktop */
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Focus state for input */
+  .data-generation-container input:focus {
+    outline: none;
+    border-color: #2575fc;
+    box-shadow: 0 0 10px rgba(37, 117, 252, 0.5);
+  }
+  
+  /* Button styling */
+  .data-generation-container button {
+    width: 100%;
+    max-width: 400px; /* Larger button for desktop */
+    padding: 1rem;
+    background: #2575fc;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Button hover effect */
+  .data-generation-container button:hover {
+    background: #005bb5;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Button active effect */
+  .data-generation-container button:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Paragraph for instructions or success messages */
+  .data-generation-container p {
+    margin-top: 1rem;
+    color: #ffffff;
+    font-size: 1.1rem;
+    font-style: italic;
+    text-align: center;
+    animation: fadeIn 1s ease-in-out;
+  }
+  
+  /* Responsive Design for Smaller Screens */
+  @media (max-width: 768px) {
+    .data-generation-container {
+      padding: 1.5rem;
+    }
+  
+    .data-generation-container h2 {
+      font-size: 1.8rem; /* Slightly smaller title */
+      margin-bottom: 1rem;
+    }
+  
+    .data-generation-container input, 
+    .data-generation-container button {
+      max-width: 100%; /* Full width on small screens */
+      padding: 0.9rem; /* Adjust padding for small screens */
+    }
+  
+    .data-generation-container p {
+      font-size: 1rem; /* Slightly smaller text */
+    }
+  }
+  
+  /* Animations */
+  @keyframes fadeInDown {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+
+  /* Responsive Design for Smaller Screens (Mobile Devices) */
+@media (max-width: 600px) {
+    .data-generation-container {
+      padding: 1rem;
+    }
+  
+    .data-generation-container h2 {
+      font-size: 1.6rem; 
+      margin-bottom: 1rem; 
+      text-align: center; 
+    }
+  
+    .data-generation-container label {
+      font-size: 0.9rem; 
+    }
+  
+    .data-generation-container input,
+    .data-generation-container button {
+      max-width: 100%; 
+      padding: 0.8rem;
+    }
+  
+    .data-generation-container button {
+      font-size: 1rem;
+  
+    .data-generation-container p {
+      font-size: 0.9rem; 
+      text-align: center; 
+      margin-top: 1rem;
+    }
+  }
+}

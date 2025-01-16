@@ -1,0 +1,9 @@
+
+<div class="data-generation-container">
+    <h2>Generate Student Data</h2>
+    <label for="recordCount">Enter number of records to generate:</label>
+    <input type="number" id="recordCount" [(ngModel)]="recordCount" min="0" />
+    <button (click)="generateData()">Generate Data</button>
+    <p *ngIf="isProcessing">Processing...</p>
+  </div>
+  
