@@ -8,7 +8,6 @@ import { StudentReportComponent } from './components/student-report/student-repo
 import { StudentManagementComponent } from './components/student-management/student-management.component';
 
 export const routes: Routes = [
-    { path: '', redirectTo: '/login', pathMatch: 'full' },
     { path: 'login', loadComponent: () => import('./components/login/login.component').then(m => m.LoginComponent) },
     { path: 'dashboard', loadComponent: () => import('./components/dashboard/dashboard.component').then(m => m.DashboardComponent) },
       {
@@ -18,7 +17,7 @@ export const routes: Routes = [
           { path: 'data-upload', component: DataUploadComponent },
           { path: 'student-management', component: StudentManagementComponent },
           { path: 'student-report', component: StudentReportComponent },
-          { path: '**', redirectTo: '/login' } 
+          { path: '**', redirectTo: '/login', pathMatch: 'full' } 
         ]
     }
 ];

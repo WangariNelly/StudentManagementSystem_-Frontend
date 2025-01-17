@@ -17,21 +17,23 @@ import { AuthService } from '../../services/auth.service';
 export class LoginComponent {
   username: string = '';
   password: string = '';
+  error: string | null = null;
 
   constructor(private authService: AuthService, private router: Router) {}
 
   onSubmit(): void {
-    console.log("Fome submitted")
-    this.authService.login(this.username, this.password).subscribe(
-      response => {
-        
-        this.authService.storeToken(response.token);
+    console.log("Form submitted")
+    this.authService.login(this.username, this.password).subscribe({
+     next: (response) => {
+      localStorage.setItem('token', response.token);
+        console.log('Login successful:', response);
         this.router.navigate(['/dashboard']);
       },
-      error => {
-        console.error('Login failed', error);
+      error: (err) => {
+        console.error('Login failed', err);
+        this.error = "Invalid Credentials!"
         alert('Invalid credentials.');
       }
-    );
+  });
   }
 }

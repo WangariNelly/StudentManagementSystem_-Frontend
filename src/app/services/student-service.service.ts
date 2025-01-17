@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class StudentService {
 
-  private baseUrl = 'http://localhost:8080/api/'
+  private baseUrl = 'http://localhost:8080/api/dashboard'
   constructor( private http: HttpClient) { }
 
   getTotalStudents(): Observable<number> {
