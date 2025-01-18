@@ -4,16 +4,19 @@
       <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Username (Enter Your Fullname)</mat-label>
-          <input matInput [(ngModel)]="username" name="username" required />
+          <input matInput [(ngModel)]="username" name="username" required (input)="onInput()"
+          [disabled]="isLoading"/>
         </mat-form-field>
   
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Password</mat-label>
-          <input matInput type="password" [(ngModel)]="password" name="password" required />
+          <input matInput type="password" [(ngModel)]="password" name="password" required (input)="onInput()"
+          [disabled]="isLoading" />
         </mat-form-field>
   
-        <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid">
-          Login
+        <button mat-raised-button color="primary" type="submit" [disabled]= "isLoading || !username || !password">
+          <mat-spinner diameter="20" *ngIf="isLoading"></mat-spinner>
+          <span *ngIf="!isLoading">Login</span>
         </button>
       </form>
       <p class="signup-text">Don't have an account? <a routerLink="/register">Sign Up</a></p>

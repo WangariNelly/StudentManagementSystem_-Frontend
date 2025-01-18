@@ -6,12 +6,15 @@
       <mat-icon>menu</mat-icon>
     </button>
     <span class="spacer"></span>
-    <button *ngIf="authService.isAuthenticated()" mat-button routerLink="/dashboard">Dashboard</button>
     <button *ngIf="!authService.isAuthenticated()" mat-button routerLink="/login">Login</button>
   </mat-toolbar>
   <mat-sidenav-container class="sidenav-container">
+    <!-- <button  mat-button routerLink="/dashboard">Dashboard</button> -->
     <mat-sidenav #sidenav mode="side" opened="false" class="navbar">
       <mat-nav-list>
+        <a mat-list-item routerLink="/dashboard" routerLinkActive="active" ariaCurrentWhenActive="page">
+          Dashboard
+        </a>
         <a mat-list-item routerLink="/data-generation" routerLinkActive="active" ariaCurrentWhenActive="page">
           Data Generation
         </a>
@@ -29,10 +32,7 @@
         </a>
       </mat-nav-list>
     </mat-sidenav>
-
-    <mat-sidenav-content>
-      <router-outlet></router-outlet>
-    </mat-sidenav-content>
   </mat-sidenav-container>
+  <router-outlet></router-outlet>
 </div>
 

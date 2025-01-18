@@ -8,6 +8,7 @@ import { importProvidersFrom } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { TokenInterceptor } from './interceptors/token.interceptors';
+import { AuthGuard } from './guards/authGuard';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -23,5 +24,6 @@ export const appConfig: ApplicationConfig = {
     },
     importProvidersFrom(ReactiveFormsModule),
     importProvidersFrom(MatSidenavModule),
+    AuthGuard
   ],
 };

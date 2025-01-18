@@ -17,13 +17,13 @@ export class DataGenerationService {
    * @returns Observable with the server response.
    */
   generateData(recordCount: number): Observable<any> {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('token.trim()');
     console.log('Token from localStorage:', token);
     if (!token) {
       alert('Token is missing or invalid');
       this.router.navigate(['/login']);
     }
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token?.trim() || ''}`);
     console.log('Authorization Header:', headers);
     return this.http.get(`${this.apiUrl}/generate`,{
       headers: headers,
@@ -38,7 +38,7 @@ export class DataGenerationService {
    * @returns Observable with the server response.
    */
   processData(): Observable<any> {
-    return this.http.post(`${this.apiUrl}/process`, {}).pipe(
+    return this.http.get(`${this.apiUrl}/process`, {}).pipe(
       catchError((this.handleError)
     ));
   }

@@ -1,73 +1,114 @@
-import { Injectable } from '@angular/core';
+// import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, tap, catchError } from 'rxjs';
 import { JwtResponse } from '../interfaces/jwtResponse.interface';
 import { Router } from '@angular/router';
+import { Injectable } from '@angular/core';
 
 @Injectable({
   providedIn: 'root', 
 })
 export class AuthService {
   private apiUrl = 'http://localhost:8080/api/auth'; 
-
-
+  private tokenKey = 'token';
   private loggedInStatus = new BehaviorSubject<boolean>(this.checkLoginStatus());
   public readonly isLoggedIn = this.loggedInStatus.asObservable();
   private redirectUrl: string = '';
 
-  constructor(private http: HttpClient,private router: Router) {}
+  constructor(private http: HttpClient, private router: Router) {
+    // Check token validity on service initialization
+    this.validateStoredToken();
+  }
+
+  private validateStoredToken(): void {
+    const token = localStorage.getItem(this.tokenKey);
+    if (token) {
+      try {
+        // Basic validation - check if token is properly formatted
+        const parts = token.split('.');
+        if (parts.length !== 3) {
+          this.logout();
+        }
+      } catch (e) {
+        this.logout();
+      }
+    }
+  }
 
   private checkLoginStatus(): boolean {
-    return !!localStorage.getItem('token')
+    const token = localStorage.getItem(this.tokenKey);
+    return !!token && token.split('.').length === 3;
   }
 
-
-  // Login method
   login(username: string, password: string): Observable<any> {
     const loginRequest = { username, password };
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-    return this.http.post<JwtResponse>(`${this.apiUrl}/login`, loginRequest, {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    }).pipe(
-      tap((response: JwtResponse) => {
-        if (response.token) {
-          const token = response.token.replace('Bearer ','');
-          localStorage.setItem('token', token); 
-          this.storeToken(token); 
-          this.loggedInStatus.next(true);
-
-         
-          const redirect = this.redirectUrl || '/dashboard';
-          this.router.navigate([redirect]);
-        }
-      })
-    );
+    return this.http.post<JwtResponse>(`${this.apiUrl}/login`, loginRequest, { headers })
+      .pipe(
+        tap((response: JwtResponse) => {
+          if (response?.token) {
+            const cleanToken = response.token.trim();
+            this.storeToken(cleanToken);
+            this.loggedInStatus.next(true);
+            
+            // Navigate to redirect URL if set, otherwise to dashboard
+            const redirectTo = this.redirectUrl || '/dashboard';
+            this.router.navigate([redirectTo]);
+            this.redirectUrl = ''; // Reset redirect URL
+          } else {
+            console.error('No token received in login response');
+            throw new Error('Login failed: No token received');
+          }
+        }),
+        catchError(error => {
+          console.error('Login error:', error);
+          this.loggedInStatus.next(false);
+          throw error;
+        })
+      );
   }
 
-  
-  setRedirectUrl(url: string) {
+  setRedirectUrl(url: string): void {
     this.redirectUrl = url;
   }
 
   storeToken(token: string): void {
-    localStorage.setItem('token', token);
+    if (!token) {
+      console.error('Attempted to store empty token');
+      return;
+    }
+    try {
+      const cleanToken = token.trim();
+      localStorage.setItem(this.tokenKey, cleanToken);
+      console.log('Token stored successfully');
+    } catch (e) {
+      console.error('Error storing token:', e);
+    }
   }
 
   getToken(): string | null {
-    return localStorage.getItem('token');
+    try {
+      const token = localStorage.getItem(this.tokenKey);
+      return token ? token.trim() : null;
+    } catch (e) {
+      console.error('Error retrieving token:', e);
+      return null;
+    }
   }
-
 
   isAuthenticated(): boolean {
-    return !!this.getToken();
+    const token = this.getToken();
+    return !!token && token.split('.').length === 3;
   }
 
-
   logout(): void {
-    localStorage.removeItem('token');
-    this.loggedInStatus.next(false);
-    this.router.navigate(['/login']);
+    try {
+      localStorage.removeItem(this.tokenKey);
+      this.loggedInStatus.next(false);
+      this.router.navigate(['/login']);
+    } catch (e) {
+      console.error('Error during logout:', e);
+    }
   }
 }
