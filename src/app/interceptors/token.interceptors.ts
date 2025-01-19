@@ -8,7 +8,7 @@ export class TokenInterceptor implements HttpInterceptor {
     const token = localStorage.getItem('token');
     if (token) {
       request = request.clone({
-        setHeaders: { Authorization: token },
+        // setHeaders: { Authorization: `${token}` }, 
       });
     }
     return next.handle(request);

@@ -4,6 +4,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { StudentService } from '../../services/student-service.service';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -11,15 +12,16 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [CommonModule, MatCardModule, MatToolbarModule],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css'
+  styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
   totalStudents: number = 0;
 
   
-  constructor(private studentService: StudentService, private router: Router ) {}
+  constructor(private studentService: StudentService, private router: Router, private snackBar: MatSnackBar ) {}
 
   ngOnInit(): void {
+
     this.loadStudentCount();
 }
 
@@ -28,10 +30,10 @@ loadStudentCount(): void {
     next: (count) => (this.totalStudents = count),
     error: (err) => {
       if (err.status === 401) {
-        console.error('User is not authenticated. Redirecting to login...');
-       
-        this.router.navigate(['/login']);
+        this.snackBar.open('Session expired. Redirecting to login...', 'Close', { duration: 5000 });
+        setTimeout(() => this.router.navigate(['/login']), 5000);
       } else {
+        this.snackBar.open('Failed to fetch total students. Please try again later.', 'Close', { duration: 5000 });
         console.error('Failed to fetch total students:', err);
       }
       this.totalStudents = 0;  

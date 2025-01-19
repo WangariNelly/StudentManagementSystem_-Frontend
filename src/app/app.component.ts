@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
@@ -22,8 +22,13 @@ import { MatButtonModule } from '@angular/material/button';
 export class AppComponent {
   title = 'student-system';
 
-  constructor(public authService: AuthService) {} 
+
+  constructor(public authService: AuthService, private router: Router) {} 
   isMenuVisible = false; 
+
+  ngOnInit(): void {
+    this.router.navigate(['/login'])
+  }
 
   @ViewChild('sidenav') sidenav!: MatSidenav;
 

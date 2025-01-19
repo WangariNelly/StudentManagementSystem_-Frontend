@@ -52,6 +52,13 @@
   .navbar a:hover {
     background-color: #e2e6ea; /* Light hover effect */
   }
+
+  .close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+  
   
   .container .content {
     display: flex;

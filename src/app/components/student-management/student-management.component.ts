@@ -1,12 +1,76 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { StudentManagementService } from '../../services/student-management.service';  
+import { CommonModule } from '@angular/common';
+import { Router, RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input'; 
 
 @Component({
+
   selector: 'app-student-management',
   standalone: true,
-  imports: [],
+  imports: [CommonModule, FormsModule, RouterModule,MatFormFieldModule,
+    MatSelectModule,
+    MatInputModule,],
   templateUrl: './student-management.component.html',
-  styleUrl: './student-management.component.css'
+  styleUrls: ['./student-management.component.css'],
 })
-export class StudentManagementComponent {
+export class StudentManagementComponent implements OnInit {
+  students: any[] = [];  
+  studentId: string = ''; 
+  className: string = ''; 
+  startDate: string = ''; 
+  endDate: string = ''; 
+  page: number = 0;
+  pageSize = 5;
+  totalRecords = this.students.length;
+  size: number = 5;
+
+
+  classOptions: string[] = ['Class1', 'Class2', 'Class3', 'Class4','Class5'];
+
+  constructor(private router: Router,public studentManagementService: StudentManagementService) {}
+
+  ngOnInit(): void {
+    this.getStudents();  
+  }
+
+
+  getStudents(): void {
+    this.studentManagementService.studentId = this.studentId;
+    this.studentManagementService.className = this.className;
+    this.studentManagementService.startDate = this.startDate;
+    this.studentManagementService.endDate = this.endDate;
+
+    this.studentManagementService.getStudents();  
+    this.students = this.studentManagementService.students; 
+  }
+
+  
+  onDelete(studentId: string): void {
+    this.studentManagementService.onDelete(studentId);
+    this.getStudents();  
+  }
+
+  
+  onUpdate(student: any): void {
+    this.studentManagementService.onUpdate(student);  
+
+  }
+
+ 
+  onPageChange(page: number): void {
+    this.studentManagementService.onPageChange(page);
+    this.getStudents();
+  }
+
+
+//   openEditModal(student: any): void {
+//     const modalRef = this.modalService.open(EditStudentComponent);
+//     modalRef.componentInstance.student = student;
+//   }
+// }
 
 }

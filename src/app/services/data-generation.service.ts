@@ -11,67 +11,127 @@ export class DataGenerationService {
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  /**
-   * Generate data with the specified number of records.
-   * @param recordCount Number of records to generate.
-   * @returns Observable with the server response.
-   */
+
   generateData(recordCount: number): Observable<any> {
-    const token = localStorage.getItem('token.trim()');
+    const token = localStorage.getItem('token');
     console.log('Token from localStorage:', token);
+
+   
     if (!token) {
       alert('Token is missing or invalid');
       this.router.navigate(['/login']);
+      return throwError(() => new Error('Token is missing or invalid'));
     }
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token?.trim() || ''}`);
+
+    const headers = new HttpHeaders().set('Authorization', ` ${token.trim()}`);
     console.log('Authorization Header:', headers);
-    return this.http.get(`${this.apiUrl}/generate`,{
-      headers: headers,
-      params: { records: recordCount.toString() }
-    }).pipe(
-      catchError((this.handleError)
-    ));
+
+    return this.http
+      .get(`${this.apiUrl}/generate?records=${recordCount}`, {
+        headers: headers,
+        params: { records: recordCount.toString() },
+      })
+      .pipe(catchError(this.handleError.bind(this)));
   }
 
-  /**
-   * Process data from the generated Excel file.
-   * @returns Observable with the server response.
-   */
+
   processData(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/process`, {}).pipe(
-      catchError((this.handleError)
-    ));
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      alert('Token is missing or invalid');
+      this.router.navigate(['/login']);
+      return throwError(() => new Error('Token is missing or invalid'));
+    }
+
+    const headers = new HttpHeaders().set('Authorization', ` ${token.trim()}`);
+    console.log('Authorization Header:', headers);
+
+    return this.http
+      .get(`${this.apiUrl}/process`)
+      .pipe(catchError(this.handleError.bind(this)));
   }
 
-  /**
-   * Upload a file to the server.
-   * @param file The file to upload.
-   * @returns Observable with the server response.
-   */
+
   uploadFile(file: File): Observable<any> {
     const formData = new FormData();
     formData.append('file', file, file.name);
 
-    return this.http.post(`${this.apiUrl}/upload`, formData).pipe(
-      catchError((this.handleError)
-    ));
+    const token = localStorage.getItem('token');
 
+    if (!token) {
+      alert('Token is missing or invalid');
+      this.router.navigate(['/login']);
+      return throwError(() => new Error('Token is missing or invalid'));
+    }
+
+    const headers = new HttpHeaders().set('Authorization', ` ${token.trim()}`);
+    console.log('Authorization Header:', headers);
+
+
+    return this.http
+      .post(`${this.apiUrl}/upload`, formData)
+      .pipe(catchError(this.handleError.bind(this))); 
   }
 
-
-private handleError(error: any): Observable<never> {
-  let errorMessage: string;
-
-  if (error.error instanceof ErrorEvent) {
-    errorMessage = `Client-side error: ${error.error.message}`;
-  } else if (error.status) {
-    errorMessage = `Server-side error: ${error.status} ${error.statusText} - ${error.error?.message || 'Unknown error'}`;
-  } else {
-    errorMessage = 'An unexpected error occurred.';
+  private handleError(error: any): Observable<never> {
+    let errorMessage: string;
+  
+    // Log the raw error for debugging purposes
+    console.error('Raw Error:', error);
+  
+    if (error.error instanceof ErrorEvent) {
+      // Client-side error
+      errorMessage = `Client-side error: ${error.error.message}`;
+    } else if (error.status) {
+      // Server-side error
+      switch (error.status) {
+        case 400:
+          errorMessage = 'Bad Request: The server could not understand the request.';
+          break;
+        case 401:
+          errorMessage = 'Unauthorized: Access is denied due to invalid credentials.';
+          break;
+        case 403:
+          errorMessage = 'Forbidden: You do not have the necessary permissions.';
+          break;
+        case 404:
+          errorMessage = 'Not Found: The requested resource could not be found.';
+          break;
+        case 408:
+          errorMessage = 'Request Timeout: The server timed out waiting for the request.';
+          break;
+        case 500:
+          errorMessage = 'Internal Server Error: The server encountered an unexpected condition.';
+          break;
+        case 502:
+          errorMessage = 'Bad Gateway: The server received an invalid response from the upstream server.';
+          break;
+        case 503:
+          errorMessage = 'Service Unavailable: The server is currently unable to handle the request.';
+          break;
+        case 504:
+          errorMessage = 'Gateway Timeout: The server did not receive a timely response from the upstream server.';
+          break;
+        default:
+          errorMessage = `Unexpected Error: ${error.status} ${error.statusText}`;
+          break;
+      }
+  
+      // Add additional details if available
+      if (error.error?.message) {
+        errorMessage += ` - ${error.error.message}`;
+      }
+    } else {
+      // Unknown error
+      errorMessage = 'An unexpected error occurred. Please try again later.';
+    }
+  
+    // Log the user-friendly message
+    console.error('User-Friendly Error Message:', errorMessage);
+  
+    // Return an observable with the error message
+    return throwError(() => new Error(errorMessage));
   }
-
-  console.error('Error Details:', error); 
-  console.error('User-Friendly Message:', errorMessage);
-  return throwError(() => new Error(errorMessage));
-}
-}
+  
+ }

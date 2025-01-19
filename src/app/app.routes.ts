@@ -1,4 +1,4 @@
-// import { Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
 import { DataGenerationComponent } from './components/data-generation/data-generation.component';
 import { AppComponent } from './app.component';
@@ -7,25 +7,25 @@ import { DataUploadComponent } from './components/data-upload/data-upload.compon
 import { StudentReportComponent } from './components/student-report/student-report.component';
 import { StudentManagementComponent } from './components/student-management/student-management.component';
 import { AuthGuard } from './guards/authGuard'; 
-import { Routes } from '@angular/router';
 
 export const routes: Routes = [
-  { 
-    path: 'login', 
-    loadComponent: () => import('./components/login/login.component').then(m => m.LoginComponent) 
-  },
-
-  { 
-    path: 'dashboard', 
-    loadComponent: () => import('./components/dashboard/dashboard.component').then(m => m.DashboardComponent) 
-  },
- 
- 
   {
     path: '',
-    component: AppComponent,
-    canActivate: [AuthGuard],
+    
+    component: AppComponent, 
+  
     children: [
+
+      { 
+        path: 'login', 
+        loadComponent: () => import('./components/login/login.component').then(m => m.LoginComponent),
+        
+      },
+      { 
+        path: 'dashboard', 
+        loadComponent: () => import('./components/dashboard/dashboard.component').then(m => m.DashboardComponent),
+        canActivate: [AuthGuard]
+      },
       { 
         path: 'data-generation', 
         component: DataGenerationComponent,
@@ -52,15 +52,14 @@ export const routes: Routes = [
         canActivate: [AuthGuard]
       },
       { 
-        path: '', 
-        redirectTo: '/dashboard', 
-        pathMatch: 'full' 
-      },
-      { 
-        path: '**', 
+        path: '**',  
         redirectTo: '/login', 
         pathMatch: 'full' 
       }
     ]
+  },
+  { 
+    path: 'login', 
+    component: LoginComponent 
   }
 ];

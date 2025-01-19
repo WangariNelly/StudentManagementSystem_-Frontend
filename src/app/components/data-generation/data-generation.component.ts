@@ -16,6 +16,7 @@ export class DataGenerationComponent {
  recordCount: number = 0;
  isProcessing: boolean = false;
  isLoggedIn: boolean = false;
+ private isLoggedInSubscription: any;
 
  constructor(private dataGenerationService: DataGenerationService,
                       private authService: AuthService,
@@ -23,10 +24,18 @@ export class DataGenerationComponent {
  ) {}
 
  ngOnInit() {
-  this.authService.isLoggedIn.subscribe(status => {
+  this.isLoggedInSubscription = this.authService.isLoggedIn.subscribe((status) => {
     this.isLoggedIn = status;
+ 
+      this.generateData();  
+
   });
 }
+
+ngOnDestroy() {
+  this.isLoggedInSubscription?.unsubscribe();
+}
+
 
  generateData() {
   if (!this.isLoggedIn) {
@@ -35,15 +44,15 @@ export class DataGenerationComponent {
     this.router.navigate(['/login']);
     return
   }
-   this.isProcessing = true;
+  this.isProcessing = true;
    this.dataGenerationService.generateData(this.recordCount).subscribe({
-     next: (response) => {
+     next: (response: string) => {
        this.isProcessing = false;
-       alert('Data generation successful');
+       alert(response);
      },
      error: (err) => {
        this.isProcessing = false;
-       alert('Failed to generate data');
+       console.log('Generating.....');
      }
    });
  }
