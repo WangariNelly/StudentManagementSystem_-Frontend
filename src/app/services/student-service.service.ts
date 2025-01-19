@@ -11,13 +11,6 @@ export class StudentService {
   constructor( private http: HttpClient) { }
 
   getTotalStudents(): Observable<number> {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      console.error('No token found. User might not be logged in.');
-      throw new Error('Unauthorized access');
-    }
-
-    const headers = new HttpHeaders().set('Authorization', ` ${token.trim() || ''}`);
-    return this.http.get<number>(`${this.baseUrl}/students/count`, { headers });
+    return this.http.get<number>(`${this.baseUrl}/students/count`);
   }
 }

@@ -1,40 +1,6 @@
+<!--<router-outlet></router-outlet>-->
 <div class="container">
-  <mat-toolbar color="primary">
-    <button mat-icon-button (click)="toggleMenu()">
-      <mat-icon>menu</mat-icon>
-    </button>
-    <span class="spacer"></span>
-    <button *ngIf="!authService.isAuthenticated()" mat-button routerLink="/login">Login</button>
-  </mat-toolbar>
-
-  <mat-sidenav-container class="sidenav-container">
-    <mat-sidenav #sidenav mode="side" opened="false" class="navbar">
-      <!-- Close Button -->
-      <button mat-icon-button class="close-button" (click)="sidenav.close()">
-        <mat-icon>close</mat-icon>
-      </button>
-      <mat-nav-list>
-        <a mat-list-item routerLink="/dashboard" routerLinkActive="active" ariaCurrentWhenActive="page">
-          Dashboard
-        </a>
-        <a mat-list-item routerLink="/data-generation" routerLinkActive="active" ariaCurrentWhenActive="page">
-          Data Generation
-        </a>
-        <a mat-list-item routerLink="/data-processing" routerLinkActive="active" ariaCurrentWhenActive="page">
-          Data Processing
-        </a>
-        <a mat-list-item routerLink="/data-upload" routerLinkActive="active" ariaCurrentWhenActive="page">
-          Data Upload
-        </a>
-        <a mat-list-item routerLink="/student-management" routerLinkActive="active" ariaCurrentWhenActive="page">
-          Student Management
-        </a>
-        <a mat-list-item routerLink="/student-report" routerLinkActive="active" ariaCurrentWhenActive="page">
-          Student Report
-        </a>
-      </mat-nav-list>
-    </mat-sidenav>
-    
-  </mat-sidenav-container>
+  <div style="height:3vh" *ngIf="isAuthenticated()"><app-sidenav></app-sidenav></div>
   <router-outlet></router-outlet>
+
 </div>

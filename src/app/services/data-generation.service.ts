@@ -14,7 +14,7 @@ export class DataGenerationService {
 
   generateData(recordCount: number): Observable<any> {
     const token = localStorage.getItem('token');
-    console.log('Token from localStorage:', token);
+
 
    
     if (!token) {
@@ -39,7 +39,6 @@ export class DataGenerationService {
     const token = localStorage.getItem('token');
 
     if (!token) {
-      alert('Token is missing or invalid');
       this.router.navigate(['/login']);
       return throwError(() => new Error('Token is missing or invalid'));
     }
@@ -76,9 +75,6 @@ export class DataGenerationService {
 
   private handleError(error: any): Observable<never> {
     let errorMessage: string;
-  
-    // Log the raw error for debugging purposes
-    console.error('Raw Error:', error);
   
     if (error.error instanceof ErrorEvent) {
       // Client-side error
@@ -118,19 +114,18 @@ export class DataGenerationService {
           break;
       }
   
-      // Add additional details if available
+
       if (error.error?.message) {
         errorMessage += ` - ${error.error.message}`;
       }
     } else {
-      // Unknown error
+   
       errorMessage = 'An unexpected error occurred. Please try again later.';
     }
   
-    // Log the user-friendly message
+
     console.error('User-Friendly Error Message:', errorMessage);
-  
-    // Return an observable with the error message
+
     return throwError(() => new Error(errorMessage));
   }
   

@@ -1,3 +1,4 @@
+
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
@@ -17,11 +18,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class DashboardComponent implements OnInit {
   totalStudents: number = 0;
 
-  
+
   constructor(private studentService: StudentService, private router: Router, private snackBar: MatSnackBar ) {}
 
   ngOnInit(): void {
-
     this.loadStudentCount();
 }
 
@@ -31,12 +31,11 @@ loadStudentCount(): void {
     error: (err) => {
       if (err.status === 401) {
         this.snackBar.open('Session expired. Redirecting to login...', 'Close', { duration: 5000 });
-        setTimeout(() => this.router.navigate(['/login']), 5000);
+        // setTimeout(() => this.router.navigate(['/login']), 5000);
       } else {
         this.snackBar.open('Failed to fetch total students. Please try again later.', 'Close', { duration: 5000 });
-        console.error('Failed to fetch total students:', err);
       }
-      this.totalStudents = 0;  
+      this.totalStudents = 0;
     },
   });
 }

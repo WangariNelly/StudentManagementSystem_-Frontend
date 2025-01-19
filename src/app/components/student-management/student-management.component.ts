@@ -66,11 +66,4 @@ export class StudentManagementComponent implements OnInit {
     this.getStudents();
   }
 
-
-//   openEditModal(student: any): void {
-//     const modalRef = this.modalService.open(EditStudentComponent);
-//     modalRef.componentInstance.student = student;
-//   }
-// }
-
 }

@@ -7,32 +7,25 @@ import { MatListModule } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
+import {SidenavComponent} from './components/sidenav/sidenav.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, RouterLink,RouterLinkActive, MatButtonModule,
+  imports: [RouterOutlet, CommonModule, MatButtonModule,
     MatSidenavModule,
     MatListModule,
     MatToolbarModule,
-    MatIconModule,],
+    MatIconModule, SidenavComponent,],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
   title = 'student-system';
-
-
-  constructor(public authService: AuthService, private router: Router) {} 
-  isMenuVisible = false; 
-
-  ngOnInit(): void {
-    this.router.navigate(['/login'])
+  constructor(private authService:AuthService) {
   }
 
-  @ViewChild('sidenav') sidenav!: MatSidenav;
-
-  toggleMenu() {
-    this.sidenav.toggle();
+  isAuthenticated() {
+    return this.authService.isAuthenticated()
   }
 }

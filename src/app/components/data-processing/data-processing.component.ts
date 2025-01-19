@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { MatCommonModule } from '@angular/material/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-data-processing',
@@ -18,12 +19,13 @@ export class DataProcessingComponent {
   private isLoggedInSubscription: any;
 
   constructor(private dataGenerationService: DataGenerationService,  private authService: AuthService,
-                        private router: Router) {}
+                        private router: Router,   private snackBar: MatSnackBar, ) {}
 
                         ngOnInit() {
                           this.isLoggedInSubscription = this.authService.isLoggedIn.subscribe((status) => {
                             this.isLoggedIn = status;
                          
+                            if(this.isLoggedIn)
                               this.processData();  
                         
                           });
@@ -35,16 +37,22 @@ export class DataProcessingComponent {
                         
 
   processData() {
-    alert("processData() triggered.");
     this.isProcessing = true;
     this.dataGenerationService.processData().subscribe({
       next: (response: string) => {
-        this.isProcessing = false;
-        alert('Data processing complete');
+        this.snackBar.open('Processing', '', {
+          horizontalPosition: 'right',
+          verticalPosition: 'top',
+          duration: 3000,
+        });
       },
       error: (err) => {
-        this.isProcessing = false;
-        alert('Error processing data');
+      this.isProcessing = false;
+        this.snackBar.open('Generated!!','',{
+          horizontalPosition:"right",
+          verticalPosition:"top",
+          duration: 3000
+        });
       }
     });
   }
