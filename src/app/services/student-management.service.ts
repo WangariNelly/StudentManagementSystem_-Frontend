@@ -100,14 +100,14 @@ export class StudentManagementService {
       .subscribe(
         (students) => {
           this.students = students;
-        },
-        (error) => {
-          this.snackBar.open('Failed to fetch students.Please retry','',{
-            horizontalPosition:"right",
-            verticalPosition:"top",
-            duration: 3000
-          });
         }
+        // (error) => {
+        //   this.snackBar.open('Fetched','',{
+        //     horizontalPosition:"right",
+        //     verticalPosition:"top",
+        //     duration: 3000
+        //   });
+        // }
       );
   }
 
