@@ -44,7 +44,6 @@ export class DataGenerationService {
     }
 
     const headers = new HttpHeaders().set('Authorization', ` ${token.trim()}`);
-    console.log('Authorization Header:', headers);
 
     return this.http
       .get(`${this.apiUrl}/process`)
@@ -59,17 +58,16 @@ export class DataGenerationService {
     const token = localStorage.getItem('token');
 
     if (!token) {
-      alert('Token is missing or invalid');
       this.router.navigate(['/login']);
       return throwError(() => new Error('Token is missing or invalid'));
     }
 
     const headers = new HttpHeaders().set('Authorization', ` ${token.trim()}`);
-    console.log('Authorization Header:', headers);
+
 
 
     return this.http
-      .post(`${this.apiUrl}/upload`, formData)
+      .get(`${this.apiUrl}/saveToDb`)
       .pipe(catchError(this.handleError.bind(this))); 
   }
 

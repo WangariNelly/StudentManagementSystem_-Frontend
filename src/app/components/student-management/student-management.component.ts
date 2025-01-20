@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input'; 
+import { AuthService } from '../../services/auth.service';
 
 @Component({
 
@@ -13,7 +14,8 @@ import { MatInputModule } from '@angular/material/input';
   standalone: true,
   imports: [CommonModule, FormsModule, RouterModule,MatFormFieldModule,
     MatSelectModule,
-    MatInputModule,],
+    MatInputModule,
+],
   templateUrl: './student-management.component.html',
   styleUrls: ['./student-management.component.css'],
 })
@@ -24,14 +26,14 @@ export class StudentManagementComponent implements OnInit {
   startDate: string = ''; 
   endDate: string = ''; 
   page: number = 0;
-  pageSize = 5;
+  pageSize = 10;
   totalRecords = this.students.length;
   size: number = 5;
-
+ FormData: any[] = []
 
   classOptions: string[] = ['Class1', 'Class2', 'Class3', 'Class4','Class5'];
 
-  constructor(private router: Router,public studentManagementService: StudentManagementService) {}
+  constructor(private router: Router,public studentManagementService: StudentManagementService, authService: AuthService) {}
 
   ngOnInit(): void {
     this.getStudents();  
@@ -59,6 +61,10 @@ export class StudentManagementComponent implements OnInit {
     this.studentManagementService.onUpdate(student);  
 
   }
+
+  // updateStudent(student: any): void {
+  //   this.studentManagementService.updateStudent(studentId, FormData)
+  // }
 
  
   onPageChange(page: number): void {

@@ -4,10 +4,10 @@ import {DataGenerationComponent} from './components/data-generation/data-generat
 import {AppComponent} from './app.component';
 import {DataProcessingComponent} from './components/data-processing/data-processing.component';
 import {DataUploadComponent} from './components/data-upload/data-upload.component';
-import {StudentReportComponent} from './components/student-report/student-report.component';
 import {StudentManagementComponent} from './components/student-management/student-management.component';
 import {AuthGuard} from './guards/authGuard';
 import {DashboardComponent} from './components/dashboard/dashboard.component';
+
 
 export const routes: Routes = [
   {
@@ -39,17 +39,12 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     component: DataUploadComponent,
   },
+
   {
     path: 'student-management',
     title: 'Student Management',
     canActivate: [AuthGuard],
     component: StudentManagementComponent,
-  },
-  {
-    path: 'student-report',
-    title: 'Student Report',
-    canActivate: [AuthGuard],
-    component: StudentReportComponent,
   },
   {
     path: '**',

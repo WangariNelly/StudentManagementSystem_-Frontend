@@ -3,6 +3,9 @@ import { Component } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
 import { DataGenerationService } from '../../services/data-generation.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-data-upload',
@@ -15,7 +18,8 @@ export class DataUploadComponent {
   file: File | null = null;
   isUploading: boolean = false;
 
-  constructor(private dataGenerationService: DataGenerationService) {}
+  constructor(private dataGenerationService: DataGenerationService,  private snackBar: MatSnackBar,          private authService: AuthService,
+                        private router: Router ) {}
 
   onFileChange(event: any) {
     this.file = event.target.files[0];
@@ -27,15 +31,27 @@ export class DataUploadComponent {
       this.dataGenerationService.uploadFile(this.file).subscribe({
         next: (response) => {
           this.isUploading = false;
-          alert('Data upload successful');
+          this.snackBar.open('Uploaded!!','',{
+            horizontalPosition:"right",
+            verticalPosition:"top",
+            duration: 3000
+          });
         },
         error: (err) => {
           this.isUploading = false;
-          alert('Failed to upload data');
+          this.snackBar.open('Error Uploading!!','',{
+            horizontalPosition:"right",
+            verticalPosition:"top",
+            duration: 3000
+          });
         }
       });
     } else {
-      alert('Please select a file');
+      this.snackBar.open('Please select a File','',{
+        horizontalPosition:"right",
+        verticalPosition:"top",
+        duration: 3000
+      });
     }
   }
 }

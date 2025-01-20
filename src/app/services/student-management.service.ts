@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +27,7 @@ export class StudentManagementService {
   endDate: string = '';
   classOptions: string[] = ['Class1', 'Class2', 'Class3', 'Class4','Class5'];
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router,  private snackBar: MatSnackBar, private authService: AuthService ) {}
 
   /**
    * Fetch students based on filters and pagination.
@@ -65,7 +67,11 @@ export class StudentManagementService {
 
     const token = localStorage.getItem('token');
     if (!token) {
-      alert('Token is missing or invalid');
+      this.snackBar.open('Failed to login.Please retry','',{
+        horizontalPosition:"right",
+        verticalPosition:"top",
+        duration: 3000
+      });
       return;
     }
 
@@ -87,7 +93,7 @@ export class StudentManagementService {
           throw new Error('Unexpected response structure');
         }),
         catchError((error) => {
-          console.error('Error fetching students:', error);
+         
           return throwError(() => new Error('Failed to fetch students'));
         })
       )
@@ -96,7 +102,11 @@ export class StudentManagementService {
           this.students = students;
         },
         (error) => {
-          alert('Failed to load students. Please try again later.');
+          this.snackBar.open('Failed to fetch students.Please retry','',{
+            horizontalPosition:"right",
+            verticalPosition:"top",
+            duration: 3000
+          });
         }
       );
   }
@@ -132,13 +142,16 @@ export class StudentManagementService {
         .delete(`${this.apiUrl}/delete/${studentId}`)
         .pipe(
           catchError((error) => {
-            console.error('Error deleting student:', error);
             return throwError(() => new Error('Failed to delete student'));
           })
         )
         .subscribe(() => {
-          alert('Student deleted successfully');
-          this.getStudents();  // Refresh the list
+          this.snackBar.open('Successfully deleted','',{
+            horizontalPosition:"right",
+            verticalPosition:"top",
+            duration: 3000
+          });
+          this.getStudents();  
         });
     }
   }
