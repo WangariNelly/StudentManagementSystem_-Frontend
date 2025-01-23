@@ -7,6 +7,7 @@ import {DataUploadComponent} from './components/data-upload/data-upload.componen
 import {StudentManagementComponent} from './components/student-management/student-management.component';
 import {AuthGuard} from './guards/authGuard';
 import {DashboardComponent} from './components/dashboard/dashboard.component';
+import { StudentsComponent } from './components/students/students.component';
 
 
 export const routes: Routes = [
@@ -45,6 +46,13 @@ export const routes: Routes = [
     title: 'Student Management',
     canActivate: [AuthGuard],
     component: StudentManagementComponent,
+  },
+
+  {
+    path: 'students',
+    title: 'Students Dashboard',
+    canActivate: [AuthGuard],
+    component: StudentsComponent,
   },
   {
     path: '**',

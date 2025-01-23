@@ -13,7 +13,7 @@ export class StudentManagementService {
   onUpdate(student: any) {
     throw new Error('Method not implemented.');
   }
-  private apiUrl = 'http://localhost:8080/api/students';  // Backend API URL
+  private apiUrl = 'http://localhost:8080/api/students/data';  // Backend API URL
 
   students: any[] = [];
   page: number = 0;
@@ -132,35 +132,6 @@ export class StudentManagementService {
       }
     }
   
-
-  /**
-   * Delete a student by ID.
-   */
-  onDelete(studentId: string): void {
-    if (confirm('Are you sure you want to delete this student?')) {
-      this.http
-        .delete(`${this.apiUrl}/delete/${studentId}`)
-        .pipe(
-          catchError((error) => {
-            return throwError(() => new Error('Failed to delete student'));
-          })
-        )
-        .subscribe(() => {
-          this.snackBar.open('Successfully deleted','',{
-            horizontalPosition:"right",
-            verticalPosition:"top",
-            duration: 3000
-          });
-          this.getStudents();  
-        });
-    }
-  }
-
-
-updateStudent(studentId: number, formData: FormData) {
-  return this.http.put(`this.apiUrl/${studentId}`, formData);
-}
-
 
 
   onPageChange(page: number): void {

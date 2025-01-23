@@ -51,16 +51,16 @@ export class StudentManagementComponent implements OnInit {
   }
 
   
-  onDelete(studentId: string): void {
-    this.studentManagementService.onDelete(studentId);
-    this.getStudents();  
-  }
+  // onDelete(studentId: string): void {
+  //   this.studentManagementService.onDelete(studentId);
+  //   this.getStudents();  
+  // }
 
   
-  onUpdate(student: any): void {
-    this.studentManagementService.onUpdate(student);  
+  // onUpdate(student: any): void {
+  //   this.studentManagementService.onUpdate(student);  
 
-  }
+  // }
 
   // updateStudent(student: any): void {
   //   this.studentManagementService.updateStudent(studentId, FormData)
