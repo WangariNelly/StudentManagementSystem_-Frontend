@@ -1,0 +1,7 @@
+<!-- average-score.component.html -->
+<div class="average-score">
+    <h3>Average Score</h3>
+    <p *ngIf="selectedStudents.length > 0">Average: {{ getAverage() }}</p>
+    <p *ngIf="selectedStudents.length === 0">No students selected yet.</p>
+  </div>
+  

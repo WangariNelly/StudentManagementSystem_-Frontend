@@ -8,6 +8,7 @@ import {StudentManagementComponent} from './components/student-management/studen
 import {AuthGuard} from './guards/authGuard';
 import {DashboardComponent} from './components/dashboard/dashboard.component';
 import { StudentsComponent } from './components/students/students.component';
+import { ApprovalStatusComponent } from './components/approval-status/approval-status.component';
 
 
 export const routes: Routes = [
@@ -53,6 +54,12 @@ export const routes: Routes = [
     title: 'Students Dashboard',
     canActivate: [AuthGuard],
     component: StudentsComponent,
+  },
+  {
+    path: 'approval-status',
+    title: 'Approval Status',
+    canActivate: [AuthGuard],
+    component: ApprovalStatusComponent,
   },
   {
     path: '**',

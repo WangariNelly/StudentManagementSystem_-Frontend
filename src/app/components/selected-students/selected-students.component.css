@@ -1,0 +1,79 @@
+/* Style the container for the table */
+mat-card {
+    margin: 20px auto;
+    max-width: 90%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Title of the mat-card */
+  mat-card-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #3f51b5; /* Primary color */
+    text-align: center;
+    padding: 10px 0;
+  }
+  
+  /* Table styling */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #f9f9f9;
+    overflow-x: auto; /* Allows horizontal scrolling if necessary */
+  }
+  
+  /* Table headers */
+  th.mat-header-cell {
+    background-color: #3f51b5;
+    color: white;
+    font-size: 1.1rem;
+    padding: 10px 15px;
+    text-align: left;
+    font-weight: 500;
+  }
+  
+  /* Table data cells */
+  td.mat-cell {
+    padding: 10px 15px;
+    text-align: left;
+    font-size: 1rem;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  /* Table row hover effect */
+  tr.mat-row:hover {
+    background-color: #e8f0fe;
+  }
+  
+  /* Last row without border */
+  tr.mat-row:last-child td {
+    border-bottom: none;
+  }
+  
+  /* Make sure the table expands with content */
+  mat-card-content {
+    max-height: calc(100vh - 150px); /* Allow for content to grow */
+    overflow-y: auto; /* Scrollable content */
+  }
+  
+  /* Style for empty state */
+  mat-card mat-card-title {
+    font-size: 1rem;
+    color: #d32f2f;
+    text-align: center;
+    padding: 15px;
+    font-weight: 400;
+  }
+  
+  /* Ensure the card is responsive */
+  @media (max-width: 768px) {
+    table {
+      font-size: 0.9rem; /* Adjust font size for smaller screens */
+    }
+  
+    th.mat-header-cell,
+    td.mat-cell {
+      padding: 8px 12px;
+    }
+  }
+  

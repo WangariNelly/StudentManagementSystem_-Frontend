@@ -1,0 +1,53 @@
+.average-score {
+    margin-top: 20px;
+  }
+
+  /* Styling for the average-score component */
+.average-score {
+    margin: 20px auto;
+    padding: 15px;
+    background-color: #f0f4f7;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 80%;
+    text-align: center;
+  }
+  
+  /* Title styling */
+  .average-score h3 {
+    font-size: 1.5rem;
+    color: #3f51b5; /* Use the primary color */
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+  
+  /* Paragraph for average score */
+  .average-score p {
+    font-size: 1.1rem;
+    color: #333;
+    margin: 5px 0;
+  }
+  
+  /* Styling for the message when no students are selected */
+  .average-score p:last-child {
+    font-size: 1rem;
+    color: #d32f2f; /* Red color for no students selected */
+    font-weight: 400;
+  }
+  
+  /* Make it responsive for smaller screens */
+  @media (max-width: 768px) {
+    .average-score {
+      padding: 12px;
+      max-width: 90%;
+    }
+  
+    .average-score h3 {
+      font-size: 1.2rem; /* Adjust title font size for smaller screens */
+    }
+  
+    .average-score p {
+      font-size: 1rem;
+    }
+  }
+  
