@@ -1,7 +1,6 @@
 <div class="students-container">
-  <app-selected-students [selectedStudents]="selectedStudents"></app-selected-students>
   <app-average-score [selectedStudents]="selectedStudents"></app-average-score>
-
+  <app-selected-students [selectedStudents]="selectedStudents"></app-selected-students>
   <!-- Form for Adding/Editing Students -->
   <mat-card *ngIf="isEditMode" class="student-form-card">
     <button mat-icon-button class="close-modal" (click)="closeModal()">X</button>
