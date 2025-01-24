@@ -61,6 +61,7 @@ export class StudentsComponent implements OnInit {
     'status',
     'actions',
   ];
+  data: { roles: string[] } = { roles: ['ADMIN', 'USER'] };
 
   constructor(
     private studentDataService: StudentDataService,
@@ -74,7 +75,16 @@ export class StudentsComponent implements OnInit {
 
   ngOnInit(): void {
     this.fetchStudents();
-    this.isChecker = this.authService.isChecker();
+
+   const markerChecker = localStorage.getItem("responseData");
+   if (markerChecker) {
+  const parsedData = JSON.parse(markerChecker);
+  this.data = { roles: parsedData.roles };
+  console.log(this.data);
+} else {
+  // this.router.navigate(['/login']);
+}
+    // this.isChecker = this.authService.isChecker();
     this.studentForm = this.fb.group({
       firstName: [
         '',
@@ -172,6 +182,7 @@ export class StudentsComponent implements OnInit {
       },
     });
   }
+
 
   approveStudent(student: Student): void {
     student.approvalStatus = 'approved';

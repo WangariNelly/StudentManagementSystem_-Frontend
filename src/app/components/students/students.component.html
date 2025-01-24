@@ -45,7 +45,7 @@
         </mat-error>
       </mat-form-field>
 
-      <div *ngIf="isChecker">
+      <div>
         <mat-form-field appearance="fill" class="form-field">
           <mat-label>Checker Comment</mat-label>
           <textarea matInput formControlName="checkerComment"></textarea>
@@ -96,15 +96,21 @@
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef> Actions </th>
       <td mat-cell *matCellDef="let student">
-        <button mat-button (click)="editStudent(student.studentId)">Edit</button>
+        <button mat-button 
+        (click)="editStudent(student.studentId)"
+        >
+      Edit
+    </button>
+    
         <button mat-raised-button color="primary" (click)="selectStudent(student)">
           Select
         </button>
         <button mat-raised-button color="primary" (click)="deleteStudent(student.studentId)">
           Delete
         </button>
-        <button mat-button *ngIf="isChecker" (click)="approveStudent(student)">Approve</button>
-        <button mat-button *ngIf="isChecker" (click)="rejectStudent(student)">Reject</button>
+        <button mat-button 
+        (click)="approveStudent(student)">Approve</button>
+        <button mat-button (click)="rejectStudent(student)">Reject</button>
       </td>
     </ng-container>
 

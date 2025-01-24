@@ -88,7 +88,13 @@
     }
   }
   
-
+/* 
+  .disabled-btn {
+    background-color: gray;
+    color: white; 
+    cursor: not-allowed;
+  } */
+   
   /* Buttons Styling */
   button {
     font-size: 0.9rem;

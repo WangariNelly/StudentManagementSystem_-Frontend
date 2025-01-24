@@ -87,18 +87,19 @@ export class AuthService implements OnInit, OnDestroy {
     return !!token && token.split('.').length === 3;
   }
 
-  isChecker(): boolean {
-    const token = this.getToken();
-    if (token) {
-      const decodedToken = this.jwtHelper.decodeToken(token);
-      return decodedToken.roles && decodedToken.roles.includes('admin');
-    }
-    return false;
-  }
+  // isChecker(): boolean {
+  //   const token = this.getToken();
+  //   if (token) {
+  //     const decodedToken = this.jwtHelper.decodeToken(token);
+  //     return decodedToken.roles && decodedToken.roles.includes('admin');
+  //   }
+  //   return false;
+  // }
 
   logout(): void {
     try {
       localStorage.removeItem(this.tokenKey);
+      localStorage.clear();
       this.loggedInStatus.next(false);
       this.router.navigate(['/login']);
     } catch (e) {

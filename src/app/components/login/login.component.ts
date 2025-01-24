@@ -62,6 +62,8 @@ export class LoginComponent implements OnInit{
           verticalPosition:"top",
           duration: 3000
         });
+
+      localStorage.setItem("responeData", JSON.stringify(response));
         this.authService.storeToken(response.token);
         setTimeout(() => this.authService.handlePostLoginRedirect(), 1000);
       },
