@@ -4,6 +4,7 @@
 
   <!-- Form for Adding/Editing Students -->
   <mat-card *ngIf="isEditMode" class="student-form-card">
+    <button mat-icon-button class="close-modal" (click)="closeModal()">X</button>
     <form [formGroup]="studentForm" (ngSubmit)="submitForm()">
       <mat-form-field appearance="fill" class="form-field">
         <mat-label>First Name</mat-label>

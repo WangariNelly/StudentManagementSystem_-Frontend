@@ -4,6 +4,28 @@
   gap: 2rem;
   padding: 2rem;
 
+
+button.close-modal {
+  position: absolute;
+  top: 8px; 
+  right: 8px; 
+  background-color: #ff4747;
+  color: white;
+  border-radius: 50%;
+  padding: 3px 7px;
+  font-size: 16px;
+  cursor: pointer;
+  z-index: 1001; 
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.close-modal:hover {
+  background-color: #ff2121;
+}
+
   /* Form Card Styling */
   .student-form-card {
     max-width: 600px;
@@ -99,13 +121,7 @@
       }
     }
   }
-  
-/* 
-  .disabled-btn {
-    background-color: gray;
-    color: white; 
-    cursor: not-allowed;
-  } */
+
    
   /* Buttons Styling */
   button {
@@ -139,3 +155,4 @@
     }
   }
 }
+

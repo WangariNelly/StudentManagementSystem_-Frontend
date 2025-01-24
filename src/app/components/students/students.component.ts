@@ -57,6 +57,11 @@ export class StudentsComponent implements OnInit {
   selectedStudent: Student | null = null;
   isChecker: boolean = false;
   isEditMode: boolean = false;
+
+  closeModal(): void {
+    this.isEditMode = false;
+  }
+  
   displayedColumns: string[] = [
     'id',
     'firstName',
