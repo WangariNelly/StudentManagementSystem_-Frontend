@@ -36,6 +36,8 @@ export class MarkerCheckerComponent implements OnInit {
   rejectionComment: string = '';
   rejectingStudent: any = null;
   viewingEditedStudent: any = null;
+  statusFilter: string = 'all';  
+  filteredStudents = this.students;  
 
   ngOnInit(): void {}
 
@@ -48,6 +50,19 @@ export class MarkerCheckerComponent implements OnInit {
     return this.currentUser.roles.includes(role);
   }
 
+   // Filter students based on approval status
+   filterStudents(event: Event) {
+    const selectElement = event.target as HTMLSelectElement;
+    this.statusFilter = selectElement.value;
+
+    if (this.statusFilter === 'all') {
+      this.filteredStudents = this.students;
+    } else {
+      this.filteredStudents = this.students.filter(student => student.approvalStatus === this.statusFilter);
+    }
+  }
+
+
   viewEditedData(student: any) {
     if (this.hasRole('CHECKER') && student.editedData) {
       this.viewingEditedStudent = student.editedData;  
@@ -58,7 +73,7 @@ export class MarkerCheckerComponent implements OnInit {
     this.viewingEditedStudent = null; // Close the modal by clearing the data
   }
 
-  
+
   showRejectionComment(): boolean {
     return this.rejectingStudent !== null;
   }

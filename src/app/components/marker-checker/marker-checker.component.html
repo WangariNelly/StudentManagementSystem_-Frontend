@@ -9,6 +9,14 @@
     </select>
   
     <p>{{ currentUser.roles[0] }} Role</p>
+
+     <!-- Filter Dropdown to filter records by approval status -->
+  <label for="status-filter">Filter by Approval Status:</label>
+  <select id="status-filter" (change)="filterStudents($event)" [value]="statusFilter">
+    <option value="all">All</option>
+    <option value="pending">Pending Approval</option>
+    <option value="rejected">Rejected</option>
+  </select>
   
     <table>
       <thead>
