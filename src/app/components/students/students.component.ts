@@ -129,47 +129,43 @@ export class StudentsComponent implements OnInit {
     });
   }
 
- 
+
+
   submitForm(): void {
     if (this.studentForm.valid) {
       if (this.isEditMode && this.currentStudentId !== null) {
-        // Set status to 'pending approval' on edit
+        // Update student locally and set status to 'pendingApproval'
         const updatedStudent = {
           ...this.studentForm.value,
-          approvalStatus: 'pending approval',
+          approvalStatus: 'pendingApproval',
         };
   
-        this.studentDataService.updateStudent(this.currentStudentId, updatedStudent).subscribe({
-          next: () => {
-            this.snackBar.open('Student marked as pending approval', '', { duration: 3000 });
-            this.fetchStudents(); // Refresh the list
-            this.resetForm(); // Reset the form
-          },
-          error: () => {
-            this.snackBar.open('Failed to update student', '', { duration: 3000 });
-          },
-        });
+        const index = this.students.findIndex(s => s.studentId === this.currentStudentId);
+        if (index !== -1) {
+          this.students[index] = { ...this.students[index], ...updatedStudent };
+          this.snackBar.open('Student updated locally and marked as pending approval', '', { duration: 3000 });
+        } else {
+          this.snackBar.open('Failed to update student locally', '', { duration: 3000 });
+        }
+  
+        this.resetForm();
       } else {
         // Add new student
         const newStudent = {
           ...this.studentForm.value,
-          approvalStatus: 'pending approval', // Set default status for new students
+          approvalStatus: 'pendingApproval', 
         };
   
-        this.studentDataService.addStudent(newStudent).subscribe({
-          next: () => {
-            this.snackBar.open('Student added successfully', '', { duration: 3000 });
-            this.fetchStudents();
-            this.resetForm();
-          },
-          error: () => {
-            this.snackBar.open('Failed to add student', '', { duration: 3000 });
-          },
-        });
+        this.students.push(newStudent);
+        this.snackBar.open('Student added locally', '', { duration: 3000 });
+        this.resetForm();
       }
     }
   }
   
+  
+
+  //select students
   selectStudent(student: any): void {
  
     const isAlreadySelected = this.selectedStudents.some(s => s.studentId === student.studentId);
@@ -206,6 +202,7 @@ export class StudentsComponent implements OnInit {
     });
   }
 
+ 
 
   approveStudent(student: Student): void {
   const updatedStudent = { ...student, approvalStatus: 'approved' };

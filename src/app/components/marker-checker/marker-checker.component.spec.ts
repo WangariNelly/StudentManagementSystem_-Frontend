@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ApprovalStatusComponent } from './approval-status.component';
+import { MarkerCheckerComponent } from './marker-checker.component';
 
-describe('ApprovalStatusComponent', () => {
-  let component: ApprovalStatusComponent;
-  let fixture: ComponentFixture<ApprovalStatusComponent>;
+describe('MarkerCheckerComponent', () => {
+  let component: MarkerCheckerComponent;
+  let fixture: ComponentFixture<MarkerCheckerComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ApprovalStatusComponent]
+      imports: [MarkerCheckerComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ApprovalStatusComponent);
+    fixture = TestBed.createComponent(MarkerCheckerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

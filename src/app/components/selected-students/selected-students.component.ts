@@ -1,12 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 
 @Component({
   selector: 'app-selected-students',
   standalone: true,
-  imports: [CommonModule,MatCardModule, MatTableModule],
+  imports: [CommonModule,MatCardModule, MatTableModule, ReactiveFormsModule],
   templateUrl: './selected-students.component.html',
   styleUrl: './selected-students.component.css'
 })
