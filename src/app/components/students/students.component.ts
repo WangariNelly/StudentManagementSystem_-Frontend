@@ -164,22 +164,41 @@ export class StudentsComponent implements OnInit {
   
   
 
-  //select students
-  selectStudent(student: any): void {
+  // //select students
+  // selectStudent(student: any): void {
  
+  //   const isAlreadySelected = this.selectedStudents.some(s => s.studentId === student.studentId);
+  
+  //   if (!isAlreadySelected) {
+  //     this.selectedStudents.push({
+  //       studentId: student.studentId,
+  //       firstName: student.firstName,
+  //       lastName: student.lastName,
+  //       score: student.score
+  //     });
+  //   } else {
+  //     this.snackBar.open('This student is already selected.', '', { duration: 3000 });
+  //   }
+  // }
+
+  selectStudent(student: any): void {
     const isAlreadySelected = this.selectedStudents.some(s => s.studentId === student.studentId);
   
     if (!isAlreadySelected) {
-      this.selectedStudents.push({
-        studentId: student.studentId,
-        firstName: student.firstName,
-        lastName: student.lastName,
-        score: student.score
-      });
+      this.selectedStudents = [
+        ...this.selectedStudents, // Spread the existing array
+        {
+          studentId: student.studentId,
+          firstName: student.firstName,
+          lastName: student.lastName,
+          score: student.score
+        }
+      ];
     } else {
       this.snackBar.open('This student is already selected.', '', { duration: 3000 });
     }
   }
+  
   
 
   editStudent(studentId: number): void {

@@ -4,25 +4,24 @@
     <mat-card-title>Selected Students</mat-card-title>
     <mat-card-content>
       <table mat-table [dataSource]="selectedStudents">
-        <!-- First Name Column -->
+  
         <ng-container matColumnDef="firstName">
           <th mat-header-cell *matHeaderCellDef> First Name </th>
           <td mat-cell *matCellDef="let student"> {{ student.firstName }} </td>
         </ng-container>
   
-        <!-- Last Name Column -->
+
         <ng-container matColumnDef="lastName">
           <th mat-header-cell *matHeaderCellDef> Last Name </th>
           <td mat-cell *matCellDef="let student"> {{ student.lastName }} </td>
         </ng-container>
   
-        <!-- Score Column -->
+ 
         <ng-container matColumnDef="score">
           <th mat-header-cell *matHeaderCellDef> Score </th>
           <td mat-cell *matCellDef="let student"> {{ student.score }} </td>
         </ng-container>
   
-        <!-- Add any other columns you need -->
   
         <!-- Header Row -->
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -30,10 +29,12 @@
         <!-- Row Data -->
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
+
+      <h3>Total Score: {{ totalScore }}</h3>
     </mat-card-content>
   </mat-card>
   
-  <!-- If no students are selected -->
+
   <mat-card *ngIf="selectedStudents.length === 0">
     <mat-card-title>No students selected</mat-card-title>
   </mat-card>

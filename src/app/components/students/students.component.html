@@ -1,68 +1,60 @@
 <div class="students-container">
   <app-average-score [selectedStudents]="selectedStudents"></app-average-score>
   <app-selected-students [selectedStudents]="selectedStudents"></app-selected-students>
-  <!-- Form for Adding/Editing Students -->
-  <mat-card *ngIf="isEditMode" class="student-form-card">
-    <button mat-icon-button class="close-modal" (click)="closeModal()">X</button>
-    <form [formGroup]="studentForm" (ngSubmit)="submitForm()">
-      <mat-form-field appearance="fill" class="form-field">
-        <mat-label>First Name</mat-label>
-        <input matInput formControlName="firstName" required />
-        <mat-error *ngIf="studentForm.get('firstName')?.hasError('required')">
-          First name is required.
-        </mat-error>
-        <mat-error *ngIf="studentForm.get('firstName')?.hasError('minlength')">
-          First name should be at least 3 characters long.
-        </mat-error>
-        <mat-error *ngIf="studentForm.get('firstName')?.hasError('maxlength')">
-          First name should not exceed 8 characters.
-        </mat-error>
-      </mat-form-field>
 
-      <mat-form-field appearance="fill" class="form-field">
-        <mat-label>Last Name</mat-label>
-        <input matInput formControlName="lastName" required />
-        <mat-error *ngIf="studentForm.get('lastName')?.hasError('required')">
-          Last name is required.
-        </mat-error>
-        <mat-error *ngIf="studentForm.get('lastName')?.hasError('minlength')">
-          Last name should be at least 3 characters long.
-        </mat-error>
-        <mat-error *ngIf="studentForm.get('lastName')?.hasError('maxlength')">
-          Last name should not exceed 8 characters.
-        </mat-error>
-      </mat-form-field>
+  <!-- Modal for Adding/Editing Students -->
+  <div *ngIf="isEditMode" class="modal-overlay">
+    <div class="modal">
+      <button mat-icon-button class="close-modal" (click)="closeModal()">X</button>
+      <h3>Edit Student</h3>
+      <form [formGroup]="studentForm" (ngSubmit)="submitForm()">
+        <mat-form-field appearance="fill" class="form-field">
+          <mat-label>First Name</mat-label>
+          <input matInput formControlName="firstName" required />
+          <mat-error *ngIf="studentForm.get('firstName')?.hasError('required')">
+            First name is required.
+          </mat-error>
+        </mat-form-field>
 
-      <mat-form-field appearance="fill" class="form-field">
-        <mat-label>Date of Birth</mat-label>
-        <input matInput formControlName="dob" [matDatepicker]="dobPicker" required />
-        <mat-datepicker-toggle matSuffix [for]="dobPicker"></mat-datepicker-toggle>
-        <mat-datepicker #dobPicker></mat-datepicker>
-      </mat-form-field>
+        <mat-form-field appearance="fill" class="form-field">
+          <mat-label>Last Name</mat-label>
+          <input matInput formControlName="lastName" required />
+          <mat-error *ngIf="studentForm.get('lastName')?.hasError('required')">
+            Last name is required.
+          </mat-error>
+        </mat-form-field>
 
-      <mat-form-field appearance="fill" class="form-field">
-        <mat-label>Score</mat-label>
-        <input matInput formControlName="score" required type="number" />
-        <mat-error *ngIf="studentForm.get('score')?.hasError('required')">
-          Score is required.
-        </mat-error>
-      </mat-form-field>
-      
-      
-      <mat-form-field appearance="fill" class="form-field">
-        <mat-label>Class</mat-label>
-        <input matInput formControlName="className" required type="string" />
-        <mat-error *ngIf="studentForm.get('className')?.hasError('required')">
-          Class is required.
-        </mat-error>
-      </mat-form-field>
+        <mat-form-field appearance="fill" class="form-field">
+          <mat-label>Date of Birth</mat-label>
+          <input matInput formControlName="dob" [matDatepicker]="dobPicker" required />
+          <mat-datepicker-toggle matSuffix [for]="dobPicker"></mat-datepicker-toggle>
+          <mat-datepicker #dobPicker></mat-datepicker>
+        </mat-form-field>
 
-     
+        <mat-form-field appearance="fill" class="form-field">
+          <mat-label>Score</mat-label>
+          <input matInput formControlName="score" required type="number" />
+          <mat-error *ngIf="studentForm.get('score')?.hasError('required')">
+            Score is required.
+          </mat-error>
+        </mat-form-field>
 
-      <button mat-raised-button color="primary"(click)="submitForm()" type="submit">Save</button>
-      <!-- <button mat-raised-button color="warn" (click)="resetForm()">Cancel</button> -->
-    </form>
-  </mat-card>
+        <mat-form-field appearance="fill" class="form-field">
+          <mat-label>Class</mat-label>
+          <input matInput formControlName="className" required />
+          <mat-error *ngIf="studentForm.get('className')?.hasError('required')">
+            Class is required.
+          </mat-error>
+        </mat-form-field>
+
+        <div class="form-actions">
+          <button mat-raised-button color="primary" type="submit">Save</button>
+          <button mat-raised-button color="warn" type="button" (click)="closeModal()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- Students List -->
   <table mat-table [dataSource]="students" class="mat-elevation-z8">
     <ng-container matColumnDef="id">
@@ -98,24 +90,13 @@
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef> Actions </th>
       <td mat-cell *matCellDef="let student">
-        <button mat-button 
-        (click)="editStudent(student.studentId)"
-        >
-      Edit
-    </button>
-    
-        <button mat-raised-button color="primary" (click)="selectStudent(student)">
-          Select
-        </button>
-        <button mat-raised-button color="primary" (click)="deleteStudent(student.studentId)">
-          Delete
-        </button>
-
+        <button mat-raised-button color="primary" (click)="editStudent(student.studentId)">Edit</button>
+        <button mat-raised-button class="select-button"   (click)="selectStudent(student)">Select</button>
+        <button mat-raised-button color="warn" (click)="deleteStudent(student.studentId)">Delete</button>
       </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
-
 </div>

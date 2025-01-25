@@ -1,127 +1,116 @@
 <div>
-    <h2>Marker-Checker Workflow</h2>
-  
-    <!-- Dropdown to switch between roles -->
-    <label for="role-selector">Logged in as:</label>
-    <select id="role-selector" (change)="switchRole($event)" [value]="currentUser.roles[0]">
-      <option value="CHECKER">Checker</option>
-      <option value="MARKER">Marker</option>
-    </select>
-  
-    <p>{{ currentUser.roles[0] }} Role</p>
+  <h2>Marker-Checker Workflow</h2>
 
-     <!-- Filter Dropdown to filter records by approval status -->
+  <!-- Dropdown to switch between roles -->
+  <label for="role-selector">Logged in as:</label>
+  <select id="role-selector" (change)="switchRole($event)" [value]="currentUser.roles[0]">
+    <option value="CHECKER">Checker</option>
+    <option value="MARKER">Marker</option>
+  </select>
+
+  <p>{{ currentUser.roles[0] }} Role</p>
+
+  <!-- Filter Dropdown to filter records by approval status -->
   <label for="status-filter">Filter by Approval Status:</label>
   <select id="status-filter" (change)="filterStudents($event)" [value]="statusFilter">
     <option value="all">All</option>
     <option value="pending">Pending Approval</option>
     <option value="rejected">Rejected</option>
   </select>
-  
-    <table>
-      <thead>
-        <tr>
-          <th>Photo</th>
-          <th>Name</th>
-          <th>Score</th>
-          <th>Date of Birth</th>
-          <th>Class</th>
-          <th>Approval Status</th>
-          <th>Rejection Comment</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let student of filteredStudents">
-          <td>
-            <!-- Display avatar only if the student is approved -->
-            <img 
-              *ngIf="student.approvalStatus === 'approved' && student.photo"
-              [src]="student.photo" 
-              alt="Avatar"
-              width="50"
-              height="50"
-              class="avatar"
-            />
-            <span *ngIf="student.approvalStatus === 'approved' && !student.photo">No Photo</span>
-          </td>
-          <td>{{ student.firstName }} {{ student.lastName }}</td>
-          <td>{{ student.score }}</td>
-          <td>{{ student.dob }}</td>
-          <td>{{ student.class }}</td>
-          <td>
-            <span 
-              [ngClass]="{
-                'approved': student.approvalStatus === 'approved',
-                'rejected': student.approvalStatus === 'rejected',
-                'pending': student.approvalStatus === 'pending'
-              }">
-              {{ student.approvalStatus }}
-            </span>
-          </td>
-          <td>{{ student.rejectionComment || 'None' }}</td>
-          <td>
-            <!-- Marker Actions -->
-            <button *ngIf="hasRole('MARKER')" (click)="editStudent(student)">
-              Edit
-            </button>
-  
-            <!-- Checker Actions -->
-            <div *ngIf="hasRole('CHECKER')">
-              <button (click)="approveStudent(student)">Approve</button>
-              <button (click)="rejectStudent(student)">Reject</button>
 
-              <button *ngIf="student.editedData" (click)="viewEditedData(student)">View</button>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    
-  
-    <!-- Rejection Comment Modal -->
-    <div *ngIf="showRejectionComment()">
-      <textarea 
-        [(ngModel)]="rejectionComment"
-        placeholder="Enter rejection reason">
-      </textarea>
-      <button (click)="submitRejection()">Submit</button>
-      <button (click)="cancelRejection()">Cancel</button>
-    </div>
-  
-    <!-- Edit Student Modal -->
-    <div *ngIf="editingStudent">
+  <table>
+    <thead>
+      <tr>
+        <th>Photo</th>
+        <th>Name</th>
+        <th>Score</th>
+        <th>Date of Birth</th>
+        <th>Class</th>
+        <th>Approval Status</th>
+        <th>Rejection Comment</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let student of filteredStudents">
+        <td>
+          <img
+            *ngIf="student.approvalStatus === 'approved' && student.photo"
+            [src]="student.photo"
+            alt="Avatar"
+            width="50"
+            height="50"
+            class="avatar"
+          />
+          <span *ngIf="student.approvalStatus === 'approved' && !student.photo">No Photo</span>
+        </td>
+        <td>{{ student.firstName }} {{ student.lastName }}</td>
+        <td>{{ student.score }}</td>
+        <td>{{ student.dob }}</td>
+        <td>{{ student.class }}</td>
+        <td>
+          <span
+            [ngClass]="{
+              'approved': student.approvalStatus === 'approved',
+              'rejected': student.approvalStatus === 'rejected',
+              'pending': student.approvalStatus === 'pending'
+            }"
+          >
+            {{ student.approvalStatus }}
+          </span>
+        </td>
+        <td>{{ student.rejectionComment || 'None' }}</td>
+        <td>
+          <!-- Marker Actions -->
+          <button *ngIf="hasRole('MARKER')" (click)="editStudent(student)">
+            Edit
+          </button>
+
+          <!-- Checker Actions -->
+          <div *ngIf="hasRole('CHECKER')">
+            <button (click)="approveStudent(student)">Approve</button>
+            <button (click)="rejectStudent(student)">Reject</button>
+            <button *ngIf="student.editedData" (click)="viewEditedData(student)">View</button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Edit Student Modal -->
+  <div *ngIf="editingStudent" class="modal">
+    <div class="modal-content">
       <h3>Edit Student</h3>
       <form (ngSubmit)="saveEditedData()">
         <label>First Name:</label>
         <input type="text" [(ngModel)]="editingStudent.firstName" name="firstName" required>
         <label>Last Name:</label>
         <input type="text" [(ngModel)]="editingStudent.lastName" name="lastName" required>
-  
+
         <label>Score:</label>
         <input type="number" [(ngModel)]="editingStudent.score" name="score" required>
-  
+
         <label>Date of Birth:</label>
         <input type="date" [(ngModel)]="editingStudent.dob" name="dob" required>
-  
+
         <label>Class:</label>
         <input type="text" [(ngModel)]="editingStudent.class" name="class" required>
-  
-          
-      <label>Upload Photo:</label>
-      <input type="file" (change)="onFileSelected($event)" accept="image/*" />
+
+        <label>Upload Photo:</label>
+        <input type="file" (change)="onFileSelected($event)" accept="image/*" />
 
         <button type="submit">Save</button>
         <button type="button" (click)="cancelEdit()">Cancel</button>
       </form>
     </div>
-
+  </div>
 
   <!-- View Edited Data Modal -->
-  <div *ngIf="viewingEditedStudent">
-    <h3>Edited Data</h3>
-    <textarea readonly [value]="viewingEditedStudent | json"></textarea>  <!-- Display the edited data as JSON -->
-    <button (click)="cancelView()">Close</button>
+  <div *ngIf="viewingEditedStudent" class="modal">
+    <div class="modal-content">
+      <h3>Edited Data</h3>
+      <textarea readonly [value]="viewingEditedStudent | json"></textarea>
+      <button (click)="cancelView()">Close</button>
+    </div>
   </div>
-  </div>
-  
+</div>
