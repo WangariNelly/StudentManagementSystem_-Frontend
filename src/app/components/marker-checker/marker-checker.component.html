@@ -21,6 +21,7 @@
     <table>
       <thead>
         <tr>
+          <th>Photo</th>
           <th>Name</th>
           <th>Score</th>
           <th>Date of Birth</th>
@@ -31,7 +32,19 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let student of students">
+        <tr *ngFor="let student of filteredStudents">
+          <td>
+            <!-- Display avatar only if the student is approved -->
+            <img 
+              *ngIf="student.approvalStatus === 'approved' && student.photo"
+              [src]="student.photo" 
+              alt="Avatar"
+              width="50"
+              height="50"
+              class="avatar"
+            />
+            <span *ngIf="student.approvalStatus === 'approved' && !student.photo">No Photo</span>
+          </td>
           <td>{{ student.firstName }} {{ student.lastName }}</td>
           <td>{{ student.score }}</td>
           <td>{{ student.dob }}</td>
@@ -94,7 +107,10 @@
         <label>Class:</label>
         <input type="text" [(ngModel)]="editingStudent.class" name="class" required>
   
-  
+          
+      <label>Upload Photo:</label>
+      <input type="file" (change)="onFileSelected($event)" accept="image/*" />
+
         <button type="submit">Save</button>
         <button type="button" (click)="cancelEdit()">Cancel</button>
       </form>
