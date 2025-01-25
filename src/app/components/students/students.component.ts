@@ -57,6 +57,7 @@ export class StudentsComponent implements OnInit {
   selectedStudent: Student | null = null;
   isChecker: boolean = false;
   isEditMode: boolean = false;
+  // isStatusColumnVisible = false;
 
   closeModal(): void {
     this.isEditMode = false;
@@ -69,7 +70,6 @@ export class StudentsComponent implements OnInit {
     'dob',
     'className',
     'score',
-    'status',
     'actions',
 
   ];
@@ -97,7 +97,6 @@ export class StudentsComponent implements OnInit {
 } else {
   // this.router.navigate(['/login']);
 }
-    // this.isChecker = this.authService.isChecker();
     this.studentForm = this.fb.group({
       firstName: [
         '',
@@ -110,8 +109,8 @@ export class StudentsComponent implements OnInit {
       dob: ['', Validators.required],
       className: ['', [Validators.required, Validators.pattern('Class[1-5]')]],
       score: [55, [Validators.required, Validators.min(55), Validators.max(85)]],
-      checkerComment: [''],
-      approvalStatus: ['pending approval'],
+      // checkerComment: [''],
+      // approvalStatus: ['pending approval'],
     });
   }
   
